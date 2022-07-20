@@ -1,6 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express'
+import cors from 'cors'
+
 export const app = express()
 
-app.get('/', (request: Request, response: Response) => {
-  response.send('dharma')
+// Middleware
+app.use(cors({ origin: true }))
+app.use(express.json())
 })
