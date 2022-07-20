@@ -1,11 +1,13 @@
 import { Link, BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Checkout from './pages/Checkout'
-import CheckoutFailed from './pages/CheckoutFailed'
-import CheckoutSuccess from './pages/CheckoutSuccess'
-import Customers from './pages/Customers'
-import Home from './pages/Home'
-import Payments from './pages/Payments'
-import Subscriptions from './pages/Subscriptions'
+import {
+  Checkout,
+  CheckoutFailed,
+  CheckoutSuccess,
+  Customers,
+  Home,
+  Payments,
+  Subscriptions,
+} from './pages'
 
 const App = () => {
   return (
