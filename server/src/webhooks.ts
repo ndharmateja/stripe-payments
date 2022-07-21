@@ -1,6 +1,7 @@
 import { stripe } from '.'
 import Stripe from 'stripe'
 import { Request, Response } from 'express'
+import { getErrorMessage } from './utils/logger'
 
 const webhookHandlers = {
   'payment_intent.succeeded': async (data: Stripe.PaymentIntent) => {
@@ -31,10 +32,4 @@ export const handleStripeWebhook = async (
     console.error(err)
     response.status(400).send(`Webhook error: ${getErrorMessage(err)}`)
   }
-}
-
-function getErrorMessage(error) {
-  let message
-  if (error instanceof Error) message = error.message
-  else message = String(error)
 }
