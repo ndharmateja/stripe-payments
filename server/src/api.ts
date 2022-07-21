@@ -3,6 +3,7 @@ import cors from 'cors'
 import { createStripeCheckoutSession } from './checkout'
 import morgan from 'morgan'
 import { createStripePaymentIntent } from './payment'
+import { handleStripeWebhook } from './webhooks'
 
 export const app = express()
 
@@ -38,6 +39,8 @@ app.post(
     response.send(paymentIntent)
   })
 )
+
+app.post('/hooks', asyncWrapper(handleStripeWebhook))
 
 function asyncWrapper(callback: Function) {
   return (request: Request, response: Response, next: NextFunction) => {
