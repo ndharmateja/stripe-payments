@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import { createStripeCheckoutSession } from './checkout'
 import morgan from 'morgan'
+import { createStripePaymentIntent } from './payment'
 
 export const app = express()
 
@@ -23,6 +24,14 @@ app.post(
     } = request
     const session = await createStripeCheckoutSession(lineItems)
     response.send(session)
+  })
+)
+
+app.post(
+  '/payments',
+  asyncWrapper(async (request: Request, response: Response) => {
+    const paymentIntent = await createStripePaymentIntent(request.body.amount)
+    response.send(paymentIntent)
   })
 )
 
