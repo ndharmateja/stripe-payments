@@ -1,7 +1,7 @@
 import { stripe } from '.'
 import Stripe from 'stripe'
 import { Request, Response } from 'express'
-import { getErrorMessage } from './utils/logger'
+import { getErrorMessage } from './utils/utils'
 
 const webhookHandlers = {
   'payment_intent.succeeded': async (data: Stripe.PaymentIntent) => {

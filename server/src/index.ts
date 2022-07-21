@@ -12,6 +12,6 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET, {
 
 // Start API with Express
 import { app } from './api'
-import { clog } from './utils/logger'
+import { clog } from './utils/utils'
 const port = process.env.PORT || 3003
 app.listen(port, () => clog(`API available on http://localhost:${port}`))
