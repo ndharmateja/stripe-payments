@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useStripe } from '@stripe/react-stripe-js'
+import { fetchFromApi } from '../helpers'
 
 const Checkout = () => {
+  const stripe = useStripe()
 
   const [product, setProduct] = useState({
     name: 'Hat',
@@ -8,7 +11,7 @@ const Checkout = () => {
     images: [
       'https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
     ],
-    amount: 799,
+    amount: 10,
     currency: 'usd',
     quantity: 0,
   })
@@ -22,7 +25,10 @@ const Checkout = () => {
     })
 
   const handleClick = async () => {
-    window.alert('you clicked')
+    const body = { line_items: [product] }
+    const { id: sessionId } = await fetchFromApi('checkout', { body })
+    const { error } = await stripe.redirectToCheckout({ sessionId })
+    if (error) console.log(error.message)
   }
 
   return (
