@@ -8,7 +8,11 @@ export const app = express()
 
 // Middleware
 app.use(cors({ origin: true }))
-app.use(express.json())
+app.use(
+  express.json({
+    verify: (request, response, buffer) => (request['rawBody'] = buffer),
+  })
+)
 app.use(morgan('tiny'))
 
 app.post('/test', (request: Request, response: Response) => {
