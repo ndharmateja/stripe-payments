@@ -67,3 +67,13 @@ function asyncWrapper(callback: Function) {
     callback(request, response, next).catch(next)
   }
 }
+
+function validateUser(request: Request) {
+  const user = request['currentUser']
+  if (!user) {
+    throw new Error(
+      'You must be logged in to make this request. i.e. Bearer <token>'
+    )
+  }
+  return user
+}
