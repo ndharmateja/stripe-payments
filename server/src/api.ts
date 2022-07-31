@@ -4,6 +4,7 @@ import { createStripeCheckoutSession } from './checkout'
 import morgan from 'morgan'
 import { createStripePaymentIntent } from './payment'
 import { handleStripeWebhook } from './webhooks'
+import { auth } from './firebase'
 
 export const app = express()
 
@@ -15,6 +16,25 @@ app.use(
   })
 )
 app.use(morgan('tiny'))
+
+const decodeJwt = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  if (request.headers?.authorization?.startsWith('Bearer ')) {
+    const idToken = request.headers.authorization.split('Bearer ')[1]
+
+    try {
+      const decodedToken = await auth.verifyIdToken(idToken)
+      request['currentUser'] = decodedToken
+    } catch (error) {
+      console.error(error)
+    }
+    next()
+  }
+}
+app.use(decodeJwt)
 
 app.post('/test', (request: Request, response: Response) => {
   const { amount } = request.body
